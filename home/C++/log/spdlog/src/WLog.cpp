@@ -4,12 +4,19 @@ static WLog::LEVEL g_Level = WLog::INFO_LEVEL;
 
 WLogAble::WLogAble()
 {
-    SetLogger(WLogger::CreateLogger(WLogger::SPDLOG_QT_QTEXTEDIT));
+    //SetLogger(WLogger::CreateLogger(WLogger::SPDLOG_QT_QTEXTEDIT));
+    SetLogger(WLogAble::CreateLogger());
 }
 
 void WLogAble::SetLogLevel(WLog::LEVEL nLevel)
 {
     g_Level = nLevel;
+    WLogAble::CreateLogger()->SetLogLevel(nLevel);
+}
+
+WLoggerPtr WLogAble::CreateLogger()
+{
+    return WLogger::CreateLogger(WLogger::SPDLOG_DAILY_LOG);
 }
 
 
@@ -135,6 +142,12 @@ std::shared_ptr<WLogger> WLogger::CreateLogger(WLogger::TYPE nType)
     {
         static std::shared_ptr<SpdQtQTextEditWLogger> g_SpdQtQTextEditLogger = std::make_shared<SpdQtQTextEditWLogger>();
         return g_SpdQtQTextEditLogger;
+    }
+        break;
+    case WLogger::SPDLOG_DAILY_LOG:
+    {
+        static std::shared_ptr<SpdDailyWLogger> g_SpdDailyWLogger = std::make_shared<SpdDailyWLogger>();
+        return g_SpdDailyWLogger;
     }
         break;
     default:

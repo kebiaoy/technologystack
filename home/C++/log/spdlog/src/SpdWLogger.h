@@ -12,7 +12,7 @@ public:
 public:
 
 	void WriteLog(WLog::LEVEL nLevel, const QString& strData) override;
-
+	void SetLogLevel(WLog::LEVEL nLevel) override;
 protected:
 	virtual std::shared_ptr<spdlog::logger> Logger() = 0;
 
@@ -26,4 +26,15 @@ protected:
 	std::shared_ptr<spdlog::logger> Logger() override;
 private:
 	static std::shared_ptr<spdlog::logger> g_QtQTextEditLogger;
+};
+
+
+class SpdDailyWLogger : public SpdWLogger
+{
+public:
+	SpdDailyWLogger();
+protected:
+	std::shared_ptr<spdlog::logger> Logger() override;
+private:
+	static std::shared_ptr<spdlog::logger> g_DailyLogger;
 };

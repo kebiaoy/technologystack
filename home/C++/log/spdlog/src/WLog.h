@@ -101,10 +101,12 @@ class WLogger
 public:
 	enum TYPE
 	{
-		SPDLOG_QT_QTEXTEDIT
+		SPDLOG_QT_QTEXTEDIT,
+		SPDLOG_DAILY_LOG
 	};
 public:
 	virtual void WriteLog(WLog::LEVEL nLevel, const QString& strData) = 0;
+	virtual void SetLogLevel(WLog::LEVEL nLevel) = 0;
 public:
 	static std::shared_ptr<WLogger> CreateLogger(WLogger::TYPE nType);
 };
@@ -115,6 +117,7 @@ class WLogAble
 public:
 	WLogAble();
 	static void SetLogLevel(WLog::LEVEL nLevel);
+	static WLoggerPtr CreateLogger();
 public:
 	WLogTrace& LoggerTrace();
 	WLogDebug& LoggerDebug();
